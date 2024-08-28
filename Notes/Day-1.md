@@ -13,7 +13,6 @@ The problems with using vanilla JS are.
 
 # React vs. Vanilla Javascript
 
-
 # What is React?
 
 React is a JS library for building UI. React is an extremely popular, declaritive, component-based, state-driven JS library for building UI, created by facebook.
@@ -33,3 +32,13 @@ React is good at 2 things:
 1. Rendering components on a webpage based on their current state.
 2. keeping the UI in sync with state by re-rendering(reacting) when state changes.
 
+# Setting Up React App
+
+We can set up react app by using create-react-app or vite.
+
+- create-react-app is a `starter-kit` for react applications. Here, everything is already configured. ESLint, prettier, jest, etc. The issue with create-react-app is that it is slow and outdated therefore it is not recommended to use this for real-world app setup. However can be used to set up react for tutorials or experiments.
+
+- vite is a modern build tool that contains a template for setting up React applications. With vite we need to manually set up ESLint, jest, prettier etc. The reason for using vite instead of create-react-app even if we have to manually set up everything is that it is extremely fast to automatically refresh the page when code changes. Also bundling is extremely fast with vite.
+
+React team now advises to use `React framework` for new projects.(NextJs, Remix etc).
+React framework is basically a framework build on top of react library.
