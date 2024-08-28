@@ -1,15 +1,15 @@
 # Problems with using only vanilla JS
 
-The problems with using vanilla JS are[^2].
+The problems with using vanilla JS are.
 
-[^1]: Requires lot of direct DOM manipulation and traversing. This could end up in spaghetti code situaton.
-[^2]: Data (state) is usually stored in DOM, shared across enitire app. This can introduce many bugs in our application.
+1. Requires lot of direct DOM manipulation and traversing. This could end up in spaghetti code situaton.
+2. Data (state) is usually stored in DOM, shared across enitire app. This can introduce many bugs in our application.
 
 # Why do front-end framework exists?
 
-[^1]: Keeping a user interface in sync with data is really hard and a lot of work. Front-end frameworks solve this problem and take hard work away from developers.
-[^2]: They enforce a correct way of structuring and writing code(therefore contributing to solving the problem of spaghetti code).
-[^3]: They give developers and teams a consistent way of building front-end applications.
+- Keeping a user interface in sync with data is really hard and a lot of work. Front-end frameworks solve this problem and take hard work away from developers.
+- They enforce a correct way of structuring and writing code(therefore contributing to solving the problem of spaghetti code).
+- They give developers and teams a consistent way of building front-end applications.
 
 # React vs. Vanilla Javascript
 
@@ -30,6 +30,6 @@ React was created in 2011 by Jordan walker an engineer working on facebook at th
 
 React is good at 2 things:
 
-[1^]: Rendering components on a webpage based on their current state.
-[2^]: keeping the UI in sync with state by re-rendering(reacting) when state changes.
+1. Rendering components on a webpage based on their current state.
+2. keeping the UI in sync with state by re-rendering(reacting) when state changes.
 
