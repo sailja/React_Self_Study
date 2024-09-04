@@ -117,3 +117,15 @@ function Menu() {
 	);
 }
 ```
+
+Props are an essential react tools to configure and customize components (like function parameters). With props, parent control how child components look and work. Anything can be passes as props: single values, arrays, objects, functions, even other components. Props are read-only (immutable). If we want to mutate props we need state.
+
+Props are just objects if we change props in child component it will affect the parent component as well creating side effects(not pure). React is all about pure components to optimize apps and avoid bugs. Therefore props are immutable.
+
+### One way data flow
+
+In React applications data can only be passed from parent to child components (mainly through props) and not the opposite.
+It makes applications more predictable and easier to understand.
+Makes application easy to debug, as we have control over the data. This makes the app more performant.
+
+There can be scenarios we would want to pass data to the parent component from child. There is a very clever way of doing this in react which we will be learning further
