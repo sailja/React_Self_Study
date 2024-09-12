@@ -66,4 +66,41 @@ Can be computed from existing state/props? ----> NO ---> Should it re-render com
 
 ## Lifting state up
 
-When a piece of state needs to be shared among multiple siblings in that case we need to define that state in the first parent component and then pass it as props to all the sibling components. This is called lifting up the state. and we also pass the setState method to one of the sibling component as a prop in order to update the state on some operation.
+When a piece of state needs to be shared among multiple siblings in that case we need to define that state in the first(closest) common parent component and then pass it as props to all the sibling components(whereever needed). This is called lifting up the state. and we also pass the setState method to one of the sibling component as a prop in order to update the state on some operation.
+
+### Data flow between parent and child
+
+Data flows from parent component to child component via props. This is called one way communication. We cannot pass data from child to parents via props. There can be scenarios where we might need to pass data from child to parent. This can be done by the child component updating the parent state. In order to achive this we simply pass the parent component setState to the child via props and then update the state in the child component. This is called inverse data flow.
+
+## Derived State
+
+Derived state is the state that is computed from an existing piece of state or from props. They are just like regular variable and no useState.
+
+## Children Prop
+
+Children prop is basically any jsx markup sent to the component by the parent. To pass these children instead of immediatly closing that component we can then write some more jsx in the component similar to how we write child elements in html element (Shown in below example where we are using the button component). This JSX can be accesed in the button component by using `props.children` in the JSX of the Button component
+
+```
+function Button({ textColor, backgroundColor, onClick, children }) {
+	return (
+		<button
+			style={{ background: backgroundColor, color: textColor }}
+			onClick={onClick}
+		>
+			{children}  //USING THE CHILDREN PROP
+		</button>
+	);
+}
+
+<Button
+							textColor='#fff'
+							backgroundColor='#7950f2'
+							onClick={handleNext}
+						>
+							<span>Next</span> 👉  //PASSING CHILDREN PROP
+						</Button>
+```
+
+- The children prop allows us to pass JSX into an element (besides regular props)
+- Essential tool to make reusable and configurable components (especially component content)
+- Really useful for generic components that don't know their content before being used (e.g. modal)
