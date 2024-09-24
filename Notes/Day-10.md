@@ -117,3 +117,106 @@ In case the element in a certain position is changed from div to header in that 
 - Allows react to distinguish between multiple instances of the same component type
 - When a key stays the same across renders, the element will be kept in the DOM (even if the position in the tree changes)
 - When a key changes between renders, then the element will be destroyed and a new one will be created (even if position in the tree is the same as before)
+
+### REFRESHER: Functional programming principles:
+
+- Side effects: Dependency on or modification of any data outside the function scope. `interaction with the outside world`. E.g. mutating external variables, HTTP requests, writing to DOM
+
+- Pure function: A function has no side effects. Does not change any variable outside its scope. Given the same input, a pure function always returns the same output
+
+### Rules for render logic: Pure components
+
+The 2 types of logic in react components are:
+
+1. Render logic :
+
+   - Code that lives at the top level of the component function
+   - Participates in describing how the component view looks like
+   - Basically all the jsx and the state that is executed as soon as the component is executed
+
+2. Event handler functions:
+   - code that is executes as a consequence of the event that the handler is listening for (change event, click event etc)
+   - Code that actually does things: update state, perform an HTTP request, read an input file, navigate to another page, etc
+
+RULES:
+
+- Components must be pure when it comes to render logic: given the same props(input), a component instance should always return the same JSX(output)
+
+- Render logic must produce no side effects - No interaction with the outside world is allowed. So in render logic:
+  - Do not perform network requests
+  - Do not start timers
+  - Do not directly use the DOM API
+  - Do not mutate objects or variables outside of the function scope
+  - Do not update state(or refs) : this will create infinite loop
+
+Side effects are allowed in event handler functions. There is also a special hook to register side effects(useEffect)
+
+### How State updated are batched?
+
+- Renders are not triggered immediately, but scheduled for when the JS engine has some free time. There is also batching of multiple setState calls in event handlers
+  If there are 3 setStates in an handler function then react does not gets rendered 3 times. It basically batches all the state updated and then gets rendered only once
+  Updating the state is asynchronous. Updated state variables are not immediately available after setState call, but only after the re-render
+  This also applies when only one state variable is updated
+  If we need to update state based on previous update, we use setState with callback `setAnswer(prevState => ...)`
+
+We can opt out of automatic batching by wrapping a state update in ReactDOM.flushSync()
+
+### DOM REFRESHER: Event propagation and delegation
+
+Let us consider a DOM tree having a button. On clicking on the button an event is created. It is not created at the button element(Where click happened) it is created at the top level i.e the root element in the DOM. Now, the event will travel down the entire tree(during the capturing phase) until it reaches the target element (where event was triggered). St the target we can choose to handle that event by placing an event handler function. Then immediately after the event has reached the target element the event object will then travel all the way back to the top of the tree during the so called bubbling phase.
+
+During the capturing and bubbling phase the event goes to every single parent and child one by one. By default event handlers listen to the events not only on the target element but also during the bubbling phase
+It means that every single event handler on the parent elements will also be executed during the bubbling phase as long as it is also listening for the same type of event. Some times we don't want this to happen and we can prevent bubbling with `e.stopPropagation()`
+
+Event Delegation:
+
+- Handling events for multiple elements in one centrall place i.e. one parent element
+- Better for performance and memory, as it needs only one handler function
+
+### How React Handles events
+
+React registers all event handlers on the root DOM container. This is where all the events are handled
+Behing the scenes react performs event delegation for all events in our application
+
+Whenever an event is triggered in an element a new event object is created at the top level which then travels down the tree till the target element.
+From there the event will bubble back up till the root element where react registered all the event handlers. Then the event will finally get handled according to whatever element matches the event and the target.
+
+### Synthetic Events
+
+Whenever we create an event handler in an element, react gives us access to the event object created. This event is called the synthetic event. These synthetic events has same interface as native event objects, like stopPropagation() and preventDefault(). This fixes browser inconsistencies, so that events work in the exact same way in all the browsers
+Most synthetic events bubble(including focus, blur and change), except for scroll
+
+## Libraries vs Frameworks & The React Ecosystem
+
+FRAMEWORK:
+
+A framework is basically a complete structure having everything you need to build a complete application (including routing, styling, HTTP requests, form management).
+The downside here is that you're stuck with the frameworks tools and conventions
+
+LIBRARIES:
+
+JS libraries on the other hand are pieces of code that developers share for other developers to use. e.g. React is a `view` library
+In order to build a large scale application you need to include many libraries to perform different operations like styling, routing, form management
+
+You can choose multiple 3rd pary libraries to build a complete application
+
+The downside here is that you need to research , download, learn and stay up-to date with multiple external libraries
+
+### React 3rd paty library ecosystem
+
+1. Routing (for SPAs) ---> ReactRouter, Reacr Location
+2. HTTP Requests ---> Axios, fetch
+3. Remote state management ---> React query, SWR, apollo
+4. Global state management ----> Context API, Redux, Zustand
+5. Styling ---> Css modules, styled Components, tailwindCss
+6. Form Management ---> React Hook Form, Formik
+7. Animation/ transitions ---> Motion, react-spring
+8. UI components ---> MaterialUi, Chakra, Mantine
+
+### Frameworks Built on top of react
+
+NextJs, Remix and Gatsby are the frameworks built on top of react. They are opiniated because other developers included their own opinion on how to handle things like state management, routing etc in these frameworks
+
+In an app build with a react framework we do not have to decide on some of the libraries
+
+React frameworks offer many other features: Server-side rendering, static site generation, better developer experience etc. Few of these frameworks can also be called as full- stack frameworks
